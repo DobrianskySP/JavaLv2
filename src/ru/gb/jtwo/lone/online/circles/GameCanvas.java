@@ -7,6 +7,7 @@ public class GameCanvas extends JPanel {
 
     MainCircles gameController;
     long lastFrameTime;
+    double time = 0d;
 
     GameCanvas(MainCircles gameController) {
         this.gameController = gameController;
@@ -21,12 +22,21 @@ public class GameCanvas extends JPanel {
         float deltaTime = (currentTime - lastFrameTime) * 0.000000001f;
         gameController.onDrawFrame(this, g, deltaTime);
         lastFrameTime = currentTime;
+        time += deltaTime; // счетчик времени для изменения фона
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        if (time >= 10d){ // условие для изменения фона и процедуры изменения
+            Color colorbackground = new Color(
+                    (int)(Math.random() * 255),
+                    (int)(Math.random() * 255),
+                    (int)(Math.random() * 255)
+            );
+            setBackground(colorbackground);
+            time =0;
+        }
         repaint();
     }
 
